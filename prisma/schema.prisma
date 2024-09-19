@@ -8,17 +8,62 @@ generator client {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  name  String
-  email String  @unique
-  posts Post[]
-  image String?
+  id        String    @id @default(cuid()) // Utilisation de cuid pour des IDs uniques
+  name      String
+  email     String    @unique
+  image     String?
+  phone     String?   // Numéro de téléphone de l'utilisateur
+  address   String?   // Adresse par défaut de l'utilisateur
+  city      String?   // Ville par défaut de l'utilisateur
+  postalCode String?  // Code postal par défaut de l'utilisateur
+  country   String?   // Pays par défaut de l'utilisateur
+  isAdmin   Boolean   @default(false) // Indicateur si l'utilisateur est administrateur
+  posts     Post[]
+  orders    Order[]   // Relation avec les commandes de l'utilisateur
 }
 
+
 model Post {
-  id        Int      @id @default(autoincrement())
+  id        String    @id @default(cuid()) // Utilisation de cuid
   title     String
   content   String?
-  authorId  Int
-  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+  author    User      @relation(fields: [authorId], references: [id])
 }
+
+model Product {
+  id        String    @id @default(cuid()) // Utilisation de cuid
+  name      String
+  price     Int       // Stocker le prix en centimes
+  stock     Int       // Quantité disponible en stock
+  createdAt DateTime  @default(now())
+
+  OrderItem OrderItem[]
+}
+
+model Order {
+  id          String    @id @default(cuid()) // ID unique pour chaque commande
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  items       OrderItem[] // Relation avec les articles commandés
+  total       Int        // Prix total de la commande
+  createdAt   DateTime   @default(now())
+
+  // Adresse de livraison spécifique à la commande
+  shippingAddress String   // Adresse de livraison
+  shippingCity    String   // Ville de livraison
+  shippingPostalCode String // Code postal de livraison
+  shippingCountry String   // Pays de livraison
+}
+
+
+model OrderItem {
+  id        String    @id @default(cuid())
+  orderId   String
+  order     Order      @relation(fields: [orderId], references: [id])
+  productId String
+  product   Product    @relation(fields: [productId], references: [id])
+  quantity  Int        // Quantité du produit commandé
+  price     Int        // Prix unitaire au moment de l'achat
+}
+

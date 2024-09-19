@@ -23,7 +23,7 @@ export default function CheckoutForm({ dpmCheckerLink }) {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000",
+        return_url: "http://localhost:3000/payment/success",
       },
     })
 
@@ -42,19 +42,40 @@ export default function CheckoutForm({ dpmCheckerLink }) {
   }
 
   const paymentElementOptions = {
-      layout: "tabs",
-      
+    layout: "tabs",
+    // defaultValues: {
+    //   billingDetails: {
+    //     name: "Nom par défaut",
+    //     email: "email@exemple.com",
+    //     phone: "0123456789",
+    //   },
+    // },
+    // fields: {
+    //   billingDetails: {
+    //     name: "never", // ou 'always', 'auto'
+    //     email: "auto",
+    //     phone: "always",
+    //     address: {
+    //       country: "auto",
+    //       postalCode: "always",
+    //     },
+    //   },
+    // },
   }
 
   return (
     <>
       <form
         id="payment-form"
-        className="bg-red-200 "
+        className="bg-black p-10 rounded-xl "
         onSubmit={handleSubmit}
       >
         <PaymentElement id="payment-element" options={paymentElementOptions} />
-        <button disabled={isLoading || !stripe || !elements} id="submit">
+        <button
+          className="bg-white px-3 py-1 lg:mt-6 mt-3 rounded-md"
+          disabled={isLoading || !stripe || !elements}
+          id="submit"
+        >
           <span id="button-text">
             {isLoading ? (
               <div className="spinner" id="spinner"></div>
