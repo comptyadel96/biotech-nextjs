@@ -39,6 +39,14 @@ export async function POST(req) {
     // Calcul du total à partir des prix vérifiés en DB
     const total = products.reduce((acc, product) => {
       const item = items.find((i) => i.id === product.id)
+
+         if (!item || isNaN(product.price) || isNaN(item.quantity)) {
+           throw new Error(
+             `Prix ou quantité invalide pour le produit ${product.id}`
+           )
+         }
+
+   
       return acc + product.price * item.quantity
     }, 0)
 
@@ -48,7 +56,7 @@ export async function POST(req) {
       amount: total, // Montant total validé par le serveur
       currency: "eur",
     })
-
+// console.log("client secret ", paymentIntent.client_secret)
     return new Response(
       JSON.stringify({
         clientSecret: paymentIntent.client_secret,

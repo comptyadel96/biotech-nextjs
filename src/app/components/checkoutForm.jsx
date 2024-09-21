@@ -43,31 +43,13 @@ export default function CheckoutForm({ dpmCheckerLink }) {
 
   const paymentElementOptions = {
     layout: "tabs",
-    // defaultValues: {
-    //   billingDetails: {
-    //     name: "Nom par défaut",
-    //     email: "email@exemple.com",
-    //     phone: "0123456789",
-    //   },
-    // },
-    // fields: {
-    //   billingDetails: {
-    //     name: "never", // ou 'always', 'auto'
-    //     email: "auto",
-    //     phone: "always",
-    //     address: {
-    //       country: "auto",
-    //       postalCode: "always",
-    //     },
-    //   },
-    // },
   }
 
   return (
     <>
       <form
         id="payment-form"
-        className="bg-black p-10 rounded-xl "
+        className="bg-black p-10 rounded-xl  min-h-20 "
         onSubmit={handleSubmit}
       >
         <PaymentElement id="payment-element" options={paymentElementOptions} />

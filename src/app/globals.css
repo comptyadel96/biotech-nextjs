@@ -12,86 +12,6 @@
   }
 }
 
-.bg-ruch {
-  background-color: #000000;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='hexagons' fill='%23ffd116' fill-opacity='0.11' fill-rule='nonzero'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-}
-
-/* animation de ruche et d'abbeille */
-
-.beehive-section-container {
-  /* height: 100vh; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.bee-container {
-  position: relative;
-  width: 300px;
-  height: 300px;
-}
-
-.beehive {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.bee {
-  position: absolute;
-  top: -100px; /* Position initiale de l'abeille */
-  left: 10%;
-  transition: all 2s ease-in-out;
-}
-
-.flying {
-  animation: fly 4s ease-in-out infinite;
-}
-
-.ruch-move {
-  animation: rotate 8s ease-out infinite;
-}
-
-@keyframes fly {
-  0% {
-    transform: translateX(0) translateY(0);
-  }
-  25% {
-    transform: translateX(30px) translateY(-50px);
-  }
-  50% {
-    transform: translateX(60px) translateY(0);
-  }
-  75% {
-    transform: translateX(30px) translateY(50px);
-  }
-  100% {
-    transform: translateX(0) translateY(0);
-  }
-}
-
-@keyframes rotate {
-  0% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(1.05);
-  }
-
-  100% {
-    transform: scale(1);
-  }
-}
-
-.landed {
-  top: 50px; /* Position de l'abeille après l'atterrissage */
-  left: 105%;
-  transform: translateX(-50%);
-}
-
 /* wave décoration biensur */
 .custom-shape-divider-top-1726766877 {
   position: absolute;
@@ -111,4 +31,36 @@
 
 .custom-shape-divider-top-1726766877 .shape-fill {
   fill: #ffd036;
+}
+
+.text-container {
+  text-align: center;
+  position: relative;
+  overflow: visible;
+}
+
+.animated-text {
+  z-index: 30;
+  margin: 0;
+  overflow: visible;
+}
+
+.underline {
+  position: absolute;
+  bottom: calc(-35%);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0; /* Start with zero width */
+  height: 100%;
+  overflow: hidden;
+  transition: width 1.5s ease; /* Smooth transition for the underline */
+  transition-delay: 500ms;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1283 132" fill="%23000000"><path d="M1282.46 5.79c-.91-3.88-5.18-6.65-9.04-5.54-104.37 29.02-193.78 56.87-361.6 74.53-268.41 28.16-539.6 14.6-803.08-26.38C94.9 47.97-.34 26.24.08 41.38c-1.56 14.21 19.47 12.91 29.6 17.24 32.82 8.6 66.1 15.33 99.4 21.81 238.99 44.43 482.98 55.29 725.63 49.01 92.37-4.11 185.68-9.96 275.51-33.09 18.68-6.31 42.79-9.21 55.18-25.89 6.76-13.28-12.41-21.16-13.83-6.12-17.69 11.67-39.31 15.61-59.45 21.34-114.56 25.18-245.31 30.46-361.99 30.36-191.39.45-383.13-10.13-572-42.21 277.31 36.42 560.77 44.96 837.82 2.23 104.21-15.4 195.11-42.74 260.97-61.22a7.57 7.57 0 0 0 5.54-9.05Z"></path></svg>')
+    no-repeat center;
+  background-size: cover;
+}
+
+/* When the underline is visible */
+.text-container.in-view .underline {
+  width: 100%; /* Full width of the text */
 }

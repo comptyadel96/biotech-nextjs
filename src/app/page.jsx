@@ -1,19 +1,14 @@
-"use client"
 import Image from "next/image"
-import BgGradient from "./components/bgGradient"
 import Caroussel from "./components/caroussel"
-import BeeAnimations from "./components/BeeAnimation"
 import { RiCustomerServiceFill, RiSecurePaymentFill } from "react-icons/ri"
 import { TbTruckDelivery } from "react-icons/tb"
-import { useRef } from "react"
-import useIsInView from "./lib/useInView"
+
 import "./accueil.css"
-import Atropos from "atropos/react"
-import "atropos/css"
+
+// import Lottie from "lottie-react"
+import Bee from "../../public/animations/flying-bee.json"
 
 export default function Home() {
-  const textRef = useRef(null)
-  const isInView = useIsInView(textRef)
   return (
     <main className="flex min-h-screen flex-col items-center  lg:py-[10rem] overflow-x-hidden">
       <div className="w-full bg-black lg:p-10  bg-ruch flex lg:gap:5">
@@ -21,16 +16,6 @@ export default function Home() {
           <h2 className="lg:text-3xl text-green-400 font-bold">
             Découvrez notre gamme de produits Gelphore
           </h2>
-          {/* <div
-            ref={textRef}
-            className={`text-container ${isInView ? "in-view" : ""}`}
-          >
-            <h1 className="animated-text lg:text-3xl text-green-400 font-bold">
-              {" "}
-              Découvrez notre gamme de produits Gelphore
-            </h1>
-            <div className="underline" />
-          </div> */}
           <p className="text-lg">
             Profitez des remises exeptionnelles avec vos points de fidélité
           </p>
@@ -73,7 +58,7 @@ export default function Home() {
       </div>
 
       {/* produit de qualité  */}
-      <section className="self-start  flex items-center justify-evenly bg-white lg:p-10 w-full relative">
+      <section className="self-start  flex items-center justify-evenly bg-white lg:py-20  w-full relative">
         {/* wave decoration */}
         <div className="custom-shape-divider-top-1726766877">
           <svg
@@ -99,7 +84,21 @@ export default function Home() {
           </svg>
         </div>
 
-        <BeeAnimations />
+        {/* <BeeAnimations /> */}
+        <div className="relative max-w-[15%]  ">
+          <Image
+            src="/ruch-1.png"
+            alt="Beehive"
+            width={200}
+            height={200}
+            className=""
+          />
+          {/* <Lottie
+            className="absolute lg:-left-[10rem] lg:top-0 lg:max-w-[13rem] "
+            animationData={Bee}
+            loop
+          /> */}
+        </div>
 
         <div className="flex flex-col lg:gap-5 lg:max-w-[50%] lg:pt-28 ">
           <h2 className=" lg:text-6xl font-bold">
@@ -117,36 +116,56 @@ export default function Home() {
       </section>
 
       {/* produits et packs et recomandations */}
-      <section className="flex flex-col lg:gap-6 lg:p-16 lg:my-20 bg-gray-100 w-full ">
+      <section
+        style={{
+          background: "url(/gradient.svg) no-repeat",
+          backgroundSize: "cover",
+        }}
+        className="flex flex-col lg:gap-6 lg:p-16 lg:my-20  w-full "
+      >
         <h2 className="lg:text-6xl font-bold">Nos best sellers</h2>
         {/* best sellers products */}
 
-        <div className="flex items-center lg:p-10 lg:gap-6 gap-3 bg-white shadow-md border rounded-xl">
-          <Atropos
-            activeOffset={40}
-            // shadowScale={1.05}
-            shadow={false}
-            color="green"
-            onEnter={() => console.log("Enter")}
-            onLeave={() => console.log("Leave")}
-            onRotate={(x, y) => console.log("Rotate", x, y)}
-            className="flex flex-col items-center p-5 gap-6 shadow bg-gray-100"
-          >
+        <div className="flex items-center lg:p-10 lg:gap-6 gap-3">
+          <div className="flex flex-col items-center p-5 gap-6 shadow bg-white">
+            <Image
+              src="/gelphore-kids.png"
+              width={250}
+              height={250}
+              alt="gelphore boost"
+            />
+            <h3 className="lg:text-xl font-semibold my-3">Gelphore Kids</h3>
+            <button className="px-3 py-2 text-white bg-black my-3">
+              Voir le produit
+            </button>
+          </div>
+
+          <div className="flex flex-col items-center p-5 gap-6 shadow bg-white">
             <Image
               src="/gelphore-boost.png"
               width={250}
               height={250}
               alt="gelphore boost"
-              data-atropos-offset="-5"
             />
             <h3 className="lg:text-xl font-semibold my-3">Gelphore Boost</h3>
-            <button
-              data-atropos-offset="0"
-              className="px-3 py-2 text-white bg-black my-3"
-            >
+            <button className="px-3 py-2 text-white bg-black mt-auto">
               Voir le produit
             </button>
-          </Atropos>
+          </div>
+
+          <div className="flex flex-col items-center p-5 gap-6 shadow bg-white">
+            <Image
+              src="/gelphore-mag.png"
+              width={250}
+              height={250}
+              alt="gelphore mag"
+              data-div-offset="-5"
+            />
+            <h3 className="lg:text-xl font-semibold my-3">Gelphore mag</h3>
+            <button className="px-3 py-2 text-white bg-black mt-auto">
+              Voir le produit
+            </button>
+          </div>
 
           <div className="flex flex-col p-5 gap-3"></div>
           <div className="flex flex-col p-5 gap-3"></div>

@@ -7,17 +7,17 @@ import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient()
 
 const providers: Provider[] = [
-  // Credentials({
-  //   credentials: { password: { label: "Password", type: "password" } },
-  //   authorize(c) {
-  //     if (c.password !== "password") return null
-  //     return {
-  //       id: "test",
-  //       name: "Test User",
-  //       email: "test@example.com",
-  //     }
-  //   },
-  // }),
+  Credentials({
+    credentials: { password: { label: "Password", type: "password" } },
+    authorize(c) {
+      if (c.password !== "password") return null
+      return {
+        id: "test",
+        name: "Test User",
+        email: "test@example.com",
+      }
+    },
+  }),
   Google({
     clientId: process.env.AUTH_GOOGLE_ID,
     clientSecret: process.env.AUTH_GOOGLE_SECRET,

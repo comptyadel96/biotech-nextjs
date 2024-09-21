@@ -1,3 +1,4 @@
+
 import React from "react"
 import { useStripe } from "@stripe/react-stripe-js"
 
@@ -115,7 +116,7 @@ export default function CompletePage() {
   }, [stripe])
 
   return (
-    <div id="payment-status">
+    <div className="bg-red-200" id="payment-status">
       <div
         id="status-icon"
         style={{ backgroundColor: STATUS_CONTENT_MAP[status].iconColor }}

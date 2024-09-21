@@ -18,6 +18,7 @@ model User {
   postalCode String?  // Code postal par défaut de l'utilisateur
   country   String?   // Pays par défaut de l'utilisateur
   isAdmin   Boolean   @default(false) // Indicateur si l'utilisateur est administrateur
+  completedProfil Boolean @default(false) // si l'utilisateur se connecte avec google ou bien twitter 
   posts     Post[]
   orders    Order[]   // Relation avec les commandes de l'utilisateur
 }
@@ -37,7 +38,7 @@ model Product {
   price     Int       // Stocker le prix en centimes
   stock     Int       // Quantité disponible en stock
   createdAt DateTime  @default(now())
-
+  quantity  Int       
   OrderItem OrderItem[]
 }
 
