@@ -1,5 +1,6 @@
 import NextAuth from "next-auth"
 import Google from "next-auth/providers/google"
+import Twitter from "next-auth/providers/twitter"
 import Credentials from "next-auth/providers/credentials"
 import type { Provider } from "next-auth/providers"
 import { PrismaClient } from "@prisma/client"
@@ -22,7 +23,12 @@ const providers: Provider[] = [
     clientId: process.env.AUTH_GOOGLE_ID,
     clientSecret: process.env.AUTH_GOOGLE_SECRET,
   }),
-
+  Twitter({
+    clientId: process.env.X_API_KEY,
+    clientSecret: process.env.X_API_SECRET,
+    version: "2.0",
+    checks: ["pkce", "state"],
+  }),
 ]
 
 export const providerMap = providers
@@ -41,29 +47,57 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   providers,
   callbacks: {
     async signIn({ user, account, profile, credentials }) {
-      console.log("Profil Google:", profile)
+      console.log("Profil Google:", account.providerAccountId)
 
-      const existingUser = await prisma.user.findUnique({
-        where: { email: user.email },
-      })
+      const existingUser =
+        account.provider != "twitter"
+          ? await prisma.user.findUnique({
+              where: { email: user.email },
+            })
+          : await prisma.user.findUnique({
+              where: { id: account.providerAccountId },
+            })
 
       if (!existingUser) {
         console.log("Créer un nouvel utilisateur.")
         await prisma.user.create({
           data: {
-            name: user.name,
-            email: user.email,
-            image: user.image.replace("=s96-c", "=s400-c"),
+            id: account.providerAccountId,
+            name: user.name || "twitter-user@no-mail.com",
+            email:
+              user.email ||
+              `twitter-user@no-mail${Math.round(Math.random() * 100000)}.com`,
+            image:
+              account.provider == "google"
+                ? user.image.replace("=s96-c", "=s400-c")
+                : user.image.replace("_normal", "400x400"),
           },
         })
       }
 
       return true
     },
+
+    // Étendre la session pour ajouter des données supplémentaires comme l'ID
+    async session({ session, token, user }) {
+      if (token?.id) {
+        session.user.id = token.id // Ajouter l'ID utilisateur à la session
+      }
+      return session
+    },
+
+    // Ajouter des informations supplémentaires dans le token JWT (utilisé par NextAuth pour stocker les données utilisateur)
+    async jwt({ token, account, user }) {
+      if (user) {
+        token.id = account.providerAccountId // Ajouter l'ID utilisateur au token JWT lors de la première connexion
+      }
+      return token
+    },
   },
 
   pages: {
     signIn: "/signin",
     signOut: "/signout",
+    newUser: "/profil",
   },
 })
