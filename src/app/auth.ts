@@ -1,6 +1,8 @@
 import NextAuth from "next-auth"
 import Google from "next-auth/providers/google"
 import Twitter from "next-auth/providers/twitter"
+import MicrosoftEntraID from "next-auth/providers/microsoft-entra-id"
+import Tiktok from "next-auth/providers/tiktok"
 import Credentials from "next-auth/providers/credentials"
 import type { Provider } from "next-auth/providers"
 import { PrismaClient } from "@prisma/client"
@@ -8,17 +10,17 @@ import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient()
 
 const providers: Provider[] = [
-  Credentials({
-    credentials: { password: { label: "Password", type: "password" } },
-    authorize(c) {
-      if (c.password !== "password") return null
-      return {
-        id: "test",
-        name: "Test User",
-        email: "test@example.com",
-      }
-    },
-  }),
+  // Credentials({
+  //   credentials: { password: { label: "Password", type: "password" } },
+  //   authorize(c) {
+  //     if (c.password !== "password") return null
+  //     return {
+  //       id: "test",
+  //       name: "Test User",
+  //       email: "test@example.com",
+  //     }
+  //   },
+  // }),
   Google({
     clientId: process.env.AUTH_GOOGLE_ID,
     clientSecret: process.env.AUTH_GOOGLE_SECRET,
@@ -28,6 +30,15 @@ const providers: Provider[] = [
     clientSecret: process.env.X_API_SECRET,
     version: "2.0",
     checks: ["pkce", "state"],
+  }),
+  MicrosoftEntraID({
+    clientId: process.env.AUTH_MICROSOFT_ENTRA_ID,
+    clientSecret: process.env.AUTH_MICROSOFT_ENTRA_ID_SECRET,
+    tenantId: process.env.AUTH_MICROSOFT_ENTRA_ID_TENANT_ID,
+  }),
+  Tiktok({
+    clientId: process.env.TIKTOK_CLIENT_ID,
+    clientSecret: process.env.TIKTOK_CLIENT_SECRET,
   }),
 ]
 
@@ -47,7 +58,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   providers,
   callbacks: {
     async signIn({ user, account, profile, credentials }) {
-      console.log("Profil Google:", account.providerAccountId)
+      console.log("user: ", user)
+      console.log("profile: ", profile)
+      console.log("account: ", account)
 
       const existingUser =
         account.provider != "twitter"
@@ -66,11 +79,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             name: user.name || "twitter-user@no-mail.com",
             email:
               user.email ||
-              `twitter-user@no-mail${Math.round(Math.random() * 100000)}.com`,
+              `twitter-user@no-mail${Math.round(
+                Math.random() * 100000
+              )}${new Date(Date.now())}.com`,
             image:
               account.provider == "google"
                 ? user.image.replace("=s96-c", "=s400-c")
-                : user.image.replace("_normal", "400x400"),
+                : account.provider == "twitter"
+                ? user.image.replace("normal", "400x400")
+                : user.image,
           },
         })
       }
@@ -82,6 +99,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async session({ session, token, user }) {
       if (token?.id) {
         session.user.id = token.id // Ajouter l'ID utilisateur à la session
+        session.user.provider = token.provider
       }
       return session
     },
@@ -90,6 +108,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async jwt({ token, account, user }) {
       if (user) {
         token.id = account.providerAccountId // Ajouter l'ID utilisateur au token JWT lors de la première connexion
+        token.provider = account.provider
       }
       return token
     },

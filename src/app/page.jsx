@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image"
 import Caroussel from "./components/caroussel"
 import { RiCustomerServiceFill, RiSecurePaymentFill } from "react-icons/ri"
@@ -5,7 +6,7 @@ import { TbTruckDelivery } from "react-icons/tb"
 
 import "./accueil.css"
 
-// import Lottie from "lottie-react"
+import Lottie from "lottie-react"
 import Bee from "../../public/animations/flying-bee.json"
 
 export default function Home() {
@@ -93,11 +94,11 @@ export default function Home() {
             height={200}
             className=""
           />
-          {/* <Lottie
+          <Lottie
             className="absolute lg:-left-[10rem] lg:top-0 lg:max-w-[13rem] "
             animationData={Bee}
             loop
-          /> */}
+          />
         </div>
 
         <div className="flex flex-col lg:gap-5 lg:max-w-[50%] lg:pt-28 ">

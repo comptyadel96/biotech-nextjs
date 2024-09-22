@@ -2,16 +2,26 @@
 import { getProviders, signIn, getCsrfToken } from "next-auth/react"
 import { useEffect, useState } from "react"
 import clsx from "clsx"
+import { FcGoogle } from "react-icons/fc"
+import { FaMicrosoft, FaTiktok, FaXTwitter } from "react-icons/fa6"
 
 export default function Page() {
   const [providers, setProviders] = useState({})
   const [csrfToken, setCsrfToken] = useState("")
+  const providerIcons = [
+    { name: "Google", icon: <FcGoogle /> },
+    { name: "Twitter", icon: <FaXTwitter /> },
+    { name: "Microsoft Entra ID", icon: <FaMicrosoft /> },
+    { name: "TikTok", icon: <FaTiktok /> },
+    { name: "Credentials", icon: <FaTiktok /> },
+  ]
 
   useEffect(() => {
     // Récupérer les fournisseurs d'authentification et le token CSRF
     async function loadProviders() {
       const authProviders = await getProviders()
       setProviders(authProviders)
+      console.log(authProviders)
 
       const csrf = await getCsrfToken()
       setCsrfToken(csrf)
@@ -56,18 +66,32 @@ export default function Page() {
 
       {/* Formulaires de connexion pour les fournisseurs externes (Google, etc.) */}
       {providers &&
-        Object.values(providers).map((provider) => (
-          <div key={provider.name} className="self-center">
-            <button
-              onClick={() => signIn(provider.id, { callbackUrl: "/profil" })}
-              className={clsx("px-3 py-1 shadow-md", {
-                "bg-green-300": provider.name == "Google",
-              })}
-            >
-              <span>Connectez-vous avec {provider.name}</span>
-            </button>
-          </div>
-        ))}
+        Object.values(providers).map((provider) => {
+          let iconName = providerIcons.find(
+            (element) => element.name == provider.name
+          )
+          return (
+            <div key={provider.name} className="self-center ">
+              <button
+                onClick={() => signIn(provider.id, { callbackUrl: "/profil" })}
+                className={clsx(
+                  "px-3 py-1 shadow-md flex items-center lg:gap-2",
+                  {
+                    "bg-green-300": provider.name == "Google",
+                  }
+                )}
+              >
+                {iconName && iconName.icon}
+                <span>
+                  Connectez-vous avec{" "}
+                  {provider.name == "Microsoft Entra ID"
+                    ? provider.name.replace("Entra ID", "")
+                    : provider.name}
+                </span>
+              </button>
+            </div>
+          )
+        })}
     </div>
   )
 }
