@@ -1,5 +1,5 @@
 import React from "react"
-import { auth, signOut } from "../auth"
+import { auth, signOut } from "../auth.ts"
 import Image from "next/image"
 import { PrismaClient } from "@prisma/client"
 import SignIn from "../components/signin"

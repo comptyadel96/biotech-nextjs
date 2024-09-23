@@ -28,7 +28,6 @@ const providers: Provider[] = [
   Twitter({
     clientId: process.env.X_API_KEY,
     clientSecret: process.env.X_API_SECRET,
-    version: "2.0",
     checks: ["pkce", "state"],
   }),
   MicrosoftEntraID({
