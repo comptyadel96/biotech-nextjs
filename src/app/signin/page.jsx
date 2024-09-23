@@ -22,7 +22,6 @@ export default function Page() {
     async function loadProviders() {
       const authProviders = await getProviders()
       setProviders(authProviders)
-      console.log(authProviders)
 
       const csrf = await getCsrfToken()
       setCsrfToken(csrf)
@@ -38,12 +37,14 @@ export default function Page() {
           width={1000}
           height={100}
           className="absolute top-0"
+          alt=""
         />
         <Image
           width={800}
           height={500}
           src="/login.png"
           className="object-cover absolute -right-[10rem]"
+          alt="abeille"
         />
       </div>
 
@@ -55,8 +56,7 @@ export default function Page() {
           action="/api/auth/callback/credentials"
         >
           <h1 className="lg:text-5xl font-semibold  lg:pl-1 border-l-4 border-l-yellow-400 ">
-            {" "}
-            Connectez-vous{" "}
+            Connectez-vous
           </h1>
 
           <input type="hidden" name="csrfToken" value={csrfToken} />

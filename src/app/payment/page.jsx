@@ -20,30 +20,6 @@ export default function App() {
     )
   }, [])
 
-  // React.useEffect(() => {
-  //   // Fetch products from the API instead of hardcoding them
-  //   fetch("/api/get-products")
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log(data.products)
-  //       setItems(data.products) // Met à jour les items depuis la base de données
-  //       // Create PaymentIntent as soon as the page loads
-  //       fetch("/api/create-payment-intent", {
-  //         method: "POST",
-  //         headers: { "Content-Type": "application/json" },
-  //         body: JSON.stringify({ items }), // Envoie les items récupérés de la DB au back-end
-  //       })
-  //         .then((res) => res.json())
-  //         .then((data) => {
-  //           setClientSecret(data.clientSecret)
-  //           setDpmCheckerLink(data.dpmCheckerLink)
-  //         })
-  //     })
-  //     .catch((error) => {
-  //       console.error("Erreur lors de la récupération des produits : ", error)
-  //     })
-  // }, [])
-
   React.useEffect(() => {
     // Fetch products from the API
     fetch("/api/get-products")
