@@ -8,6 +8,7 @@ import "./accueil.css"
 
 import Lottie from "lottie-react"
 import Bee from "../../public/animations/flying-bee.json"
+import dynamic from "next/dynamic"
 
 export default function Home() {
   return (

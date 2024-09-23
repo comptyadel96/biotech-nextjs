@@ -161,7 +161,7 @@ export default function App() {
 
   return (
     <div className=" flex flex-col   lg:py-[10rem] z-50 max-w-[75%] mx-auto  mt-[10rem] ">
-      {clientSecret ? (
+      {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
           {confirmed ? (
             <CompletePage />
@@ -169,9 +169,7 @@ export default function App() {
             <CheckoutForm dpmCheckerLink={dpmCheckerLink} />
           )}
         </Elements>
-      ) : (
-        <p>pas de client secret</p>
-      )}
+      ) }
     </div>
   )
 }

@@ -2,11 +2,13 @@ import React from "react"
 import { auth, signOut } from "../auth"
 import Image from "next/image"
 import { PrismaClient } from "@prisma/client"
+import SignIn from "../components/signin"
+
 
 const prisma = new PrismaClient()
 export default async function Profil() {
   const session = await auth()
-  if (!session) return null
+  if (!session) return <SignIn/>
 
   // Récupérer les informations utilisateur à partir de Prisma
   const user =
