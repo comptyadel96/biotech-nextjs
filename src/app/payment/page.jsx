@@ -3,7 +3,6 @@ import React from "react"
 import { loadStripe } from "@stripe/stripe-js"
 import { Elements } from "@stripe/react-stripe-js"
 import CheckoutForm from "../components/CheckoutForm"
-import CompletePage from "../components/CompletePage"
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
 
@@ -92,13 +91,18 @@ export default function App() {
 
   return (
     <div className=" flex flex-col   lg:py-[10rem] z-50 max-w-[75%] mx-auto  mt-[10rem] ">
-      {clientSecret && (
+      {/* {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
           {confirmed ? (
             <CompletePage />
           ) : (
             <CheckoutForm dpmCheckerLink={dpmCheckerLink} />
           )}
+        </Elements>
+      )} */}
+      {clientSecret && (
+        <Elements options={options} stripe={stripePromise}>
+          {!confirmed && <CheckoutForm dpmCheckerLink={dpmCheckerLink} />}
         </Elements>
       )}
     </div>
